@@ -1,0 +1,15 @@
+<!--pages/my/my.wxml-->
+
+<view class="my-container">
+
+  <view wx:if="{{isLogin && canIUse}}">
+    <open-data type="userAvatarUrl"></open-data>
+    <open-data type="userNickName"></open-data>
+  </view>
+  <view wx:elif="{{!isLogin && canIUse}}">
+    <button class="cu-btn block line-orange lg" open-type="getUserInfo" bindgetuserinfo="doGetUserInfo" lang="zh_CN">
+      <text class="cuIcon-upload"></text> 登录</button>
+  </view>
+  <view wx:else>can't use</view>
+
+</view>
