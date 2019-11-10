@@ -50,7 +50,6 @@ Page({
         loginUtil.doLogin().then(res => {
           console.log(res);
           this.data.isLogin = app.globalData.isLogin = res.isLogin;
-          console.log(this.data.isLogin);
           wx.hideLoading();
         })
       } catch (e) {

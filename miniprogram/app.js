@@ -45,12 +45,8 @@ App({
 
   globalData: {
 
-    isLogin: false,
-    expire: {
-      "-1": "未授权",
-      "0": "未过期",
-      "1": "已过期"
-    }
+    isLogin: false
+
   }
 
 })

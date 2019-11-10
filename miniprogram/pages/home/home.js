@@ -12,29 +12,32 @@ Page({
     console.log("home: onLoad");
 
     //  检查session是否过期
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo'] && app.globalData.isLogin) {
-          console.log('checkSess: 之前已授权，且已登录，检查session是否已经过期');
+    setTimeout(function() {
+      console.log('home', app.globalData.isLogin);
+      wx.getSetting({
+        success: res => {
+          if (res.authSetting['scope.userInfo'] && app.globalData.isLogin) {
+            console.log('checkSess: 之前已授权，且已登录，检查session是否已经过期');
 
-          loginUtil.checkSess().then(res => {
-            console.log(res);
+            loginUtil.checkSess().then(res => {
+              console.log('是否过期', res);
 
-            if (res) {
-              // 已过期
-              wx.showToast({
-                title: '登录已过期',
-                icon: 'none'
-              });
-              wx.navigateTo({
-                url: '../my/my',
-              });
-              app.globalData.isLogin = false;
-            }
-          })
+              if (res) {
+                // 已过期
+                wx.showToast({
+                  title: '登录已过期',
+                  icon: 'none'
+                });
+                wx.navigateTo({
+                  url: '../my/my',
+                });
+                app.globalData.isLogin = false;
+              }
+            })
+          }
         }
-      }
-    })
+      })
+    }, 1000);
 
   },
 
