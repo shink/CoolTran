@@ -1,8 +1,9 @@
 const Bmob = require('bmob.js');
 const common = require("common.js");
+const md5Util = require("md5.js");
 
 /**
- * 登录，得到code后请求session_key
+ * 登录，得到code后请求session_key，并将信息写入缓存，未操作app.globalData
  */
 function doLogin() {
 
@@ -18,12 +19,11 @@ function doLogin() {
 
           Bmob.User.requestOpenId(res.code, {
             success: userData => {
-              console.log(userData);
-              var openid = userData.openid;
+              console.log('userData', userData);
+              var openid = md5Util.hexMD5(userData.openid);
 
               wx.getUserInfo({
                 success: res => {
-                  console.log(res);
                   var userInfo = res.userInfo;
                   var avatarUrl = userInfo.avatarUrl;
                   var nickName = userInfo.nickName;
@@ -33,9 +33,36 @@ function doLogin() {
                   wx.setStorageSync('avatarUrl', avatarUrl);
                   wx.setStorageSync('nickName', nickName);
 
-                  result.isLogin = true;
-                  result.message = '登录成功';
-                  resolve(result);
+                  //  写入缓存后，查看数据库中是否已添加，若未添加则添加用户。
+                  wx.cloud.callFunction({
+                    name: 'user-query',
+                    data: {
+                      openid: openid
+                    },
+                    success: res => {
+                      if (res.result.data.length != 0) {
+                        result.isLogin = true;
+                        result.message = '登录成功';
+                        resolve(result);
+                      } else {
+                        //  未写入数据库，则添加
+                        wx.cloud.callFunction({
+                          name: 'user-login',
+                          data: {
+                            openid: openid
+                          },
+                          success: res => {
+                            console.log(res);
+                            result.isLogin = true;
+                            result.message = '登录成功';
+                            resolve(result);
+                          }
+                        });
+                      }
+
+
+                    }
+                  });
                 },
 
                 fail: error => {
@@ -81,7 +108,7 @@ function doLogin() {
 /**
  * 检查session是否过期
  */
-function checkSess(isLogin) {
+function checkSess() {
 
   let promise = new Promise(function(resolve, reject) {
     var expired = true;
@@ -89,14 +116,11 @@ function checkSess(isLogin) {
     wx.checkSession({
       success: res => {
         //  session未过期
-        console.log('checkSession-success', res);
         expired = false;
         resolve(expired);
       },
       fail: res => {
         //  session过期
-        console.log('checkSession-fail', res);
-
         expired = true;
         resolve(expired);
       }

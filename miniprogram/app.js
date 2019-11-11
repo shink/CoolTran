@@ -23,29 +23,45 @@ App({
       wx.getSetting({
         success: res => {
           console.log(res);
+          wx.showLoading({
+            title: '加载中',
+          });
+
           if (res.authSetting['scope.userInfo'] || wx.getStorageSync('openid')) {
             console.log('app: 之前已授权，或缓存中有openid，执行login获取code、session');
-            wx.showLoading({
-              title: '加载中',
-            });
 
             loginUtil.doLogin().then(res => {
               console.log(res);
               this.globalData.isLogin = res.isLogin;
-              wx.hideLoading();
+
+              //  此时home可能已经onLoad，所以加入回调函数，避免home错过登录信息
+              if (this.userInfoReadyCallback) {
+                this.userInfoReadyCallback(res.isLogin);
+              }
             })
+          } else {
+            //  尚未授权，且缓存中无openid
+            console.log('尚未授权，且缓存中无openid');
+            this.globalData.isLogin = false;
+            if (this.userInfoReadyCallback) {
+              this.userInfoReadyCallback(false);
+            }
+            wx.hideLoading();
           }
-        }
+        },
+
+        // complete: () => {
+        //   wx.hideLoading();
+        // }
       })
     } catch (e) {
       console.log(e);
+      wx.hideLoading();
     }
 
   },
 
   globalData: {
-
-    isLogin: false
 
   }
 

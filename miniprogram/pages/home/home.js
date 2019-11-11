@@ -4,16 +4,40 @@ const loginUtil = require("../../utils/login.js");
 Page({
 
   data: {
-
+    isLogin: false
   },
-
 
   onLoad: function(options) {
     console.log("home: onLoad");
 
-    //  检查session是否过期
-    setTimeout(function() {
-      console.log('home', app.globalData.isLogin);
+    const that = this;
+    console.log(app.globalData.isLogin);
+
+    if (typeof(app.globalData.isLogin) != "undefined") {
+      //  app.js已返回结果
+      console.log('home load，app已返回登录信息');
+      this.setData({
+        isLogin: app.globalData.isLogin
+      });
+      this.checkStatus();
+    } else {
+      //  app.js尚未返回结果
+      console.log('home onLoad, app登录信息尚未返回');
+      app.userInfoReadyCallback = res => {
+        this.setData({
+          isLogin: res
+        });
+
+        this.checkStatus();
+      }
+    }
+
+  },
+
+  checkStatus: function() {
+
+    if (app.globalData.isLogin && this.data.isLogin) {
+      //  检查session是否过期
       wx.getSetting({
         success: res => {
           if (res.authSetting['scope.userInfo'] && app.globalData.isLogin) {
@@ -31,21 +55,21 @@ Page({
                 wx.navigateTo({
                   url: '../my/my',
                 });
-                app.globalData.isLogin = false;
+                this.data.isLogin = app.globalData.isLogin = false;
+              } else {
+                //  未过期
+                this.data.isLogin = app.globalData.isLogin = true;
               }
             })
           }
+        },
+        complete: () => {
+          wx.hideLoading();
         }
       })
-    }, 1000);
+    }
 
   },
-
-
-
-
-
-
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作

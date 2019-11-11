@@ -38,20 +38,22 @@ Page({
    * 登录授权按钮
    */
   doGetUserInfo: function(e) {
-    console.log(e);
     console.log('doGetUserInfo');
+    var that = this;
     if (e.detail.userInfo) {
       //用户按了允许授权按钮
       try {
         wx.showLoading({
-          title: '加载中',
+          title: '登录中',
         });
 
         loginUtil.doLogin().then(res => {
           console.log(res);
-          this.data.isLogin = app.globalData.isLogin = res.isLogin;
+          that.data.isLogin = app.globalData.isLogin = res.isLogin;
+          that.onLoad();
           wx.hideLoading();
-        })
+        });
+
       } catch (e) {
         console.log(e);
       }
@@ -59,11 +61,10 @@ Page({
       //用户按了拒绝按钮
       wx.showModal({
         title: '警告',
-        content: '您点击了拒绝授权，将无法进入小程序，请授权之后再进入!!!',
+        content: '授权后才可发送或接收文件哦',
         showCancel: false,
         confirmText: '返回授权',
         success: function(res) {
-          // 用户没有授权成功，不需要改变 isHide 的值
           if (res.confirm) {
             console.log('用户点击了“返回授权”');
           }
