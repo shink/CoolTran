@@ -39,7 +39,7 @@ Page({
    */
   doGetUserInfo: function(e) {
     console.log('doGetUserInfo');
-    var that = this;
+
     if (e.detail.userInfo) {
       //用户按了允许授权按钮
       try {
@@ -49,8 +49,8 @@ Page({
 
         loginUtil.doLogin().then(res => {
           console.log(res);
-          that.data.isLogin = app.globalData.isLogin = res.isLogin;
-          that.onLoad();
+          this.data.isLogin = app.globalData.isLogin = res.isLogin;
+          this.onLoad();
           wx.hideLoading();
         });
 

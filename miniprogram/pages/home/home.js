@@ -10,9 +10,6 @@ Page({
   onLoad: function(options) {
     console.log("home: onLoad");
 
-    const that = this;
-    console.log(app.globalData.isLogin);
-
     if (typeof(app.globalData.isLogin) != "undefined") {
       //  app.js已返回结果
       console.log('home load，app已返回登录信息');
@@ -28,12 +25,15 @@ Page({
           isLogin: res
         });
 
-        this.checkStatus();
+        // this.checkStatus();
+        wx.hideLoading();
       }
     }
 
   },
 
+
+  // 检查用户登录状态（在home页面好像没用，先放这里，写别的页面的时候再用）
   checkStatus: function() {
 
     if (app.globalData.isLogin && this.data.isLogin) {

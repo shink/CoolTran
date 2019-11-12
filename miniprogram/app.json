@@ -1,7 +1,10 @@
 {
   "pages": [
     "pages/home/home",
-    "pages/my/my"
+    "pages/my/my",
+    "pages/detail/detail",
+    "pages/my-upload/my-upload",
+    "pages/my-download/my-download"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -18,10 +21,12 @@
         "iconPath": "images/tabbar/basics.png",
         "selectedIconPath": "images/tabbar/basics_cur.png"
       },
-      {"pagePath": "pages/my/my",
+      {
+        "pagePath": "pages/my/my",
         "text": "我的",
         "iconPath": "images/tabbar/about.png",
-        "selectedIconPath": "images/tabbar/about_cur.png"}
+        "selectedIconPath": "images/tabbar/about_cur.png"
+      }
     ]
   },
   "usingComponents": {
