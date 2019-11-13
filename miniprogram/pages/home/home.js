@@ -4,9 +4,19 @@ const loginUtil = require("../../utils/login.js");
 Page({
 
   data: {
-    isLogin: false
+    isLogin: false,
+    modalName:""
   },
-
+  showModal(e) {
+    this.setData({
+      modalName: e.currentTarget.dataset.target
+    })
+  },
+  hideModal(e) {
+    this.setData({
+      modalName: null
+    })
+  },
   onLoad: function(options) {
     console.log("home: onLoad");
 

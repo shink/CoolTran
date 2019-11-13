@@ -23,9 +23,9 @@ App({
       wx.getSetting({
         success: res => {
           console.log(res);
-          wx.showLoading({
-            title: '加载中',
-          });
+          // wx.showLoading({
+          //   title: '加载中',
+          // });
 
           if (res.authSetting['scope.userInfo'] || wx.getStorageSync('openid')) {
             console.log('app: 之前已授权，或缓存中有openid，执行login获取code、session');
@@ -60,9 +60,7 @@ App({
     }
 
   },
-
   globalData: {
-
   }
 
 })
