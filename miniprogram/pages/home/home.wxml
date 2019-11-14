@@ -1,3 +1,46 @@
 <!--pages/home/home.wxml-->
-
-<h1>首页</h1>
+<view class="margin-lg">
+  <button class="cu-btn block bg-green margin-tb-sm lg" bindtap="showModal" data-target="uploadModal">
+    <text class="cuIcon-down"></text> 上传文件
+  </button>
+  <button class="cu-btn block bg-green margin-tb-sm lg" bindtap="showModal" data-target="downloadModal">
+    <text class="cuIcon-upload"></text> 获取文件
+  </button>
+  <view class="cu-modal bottom-modal {{modalName=='uploadModal'?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="action text-blue" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl">
+        <button class="cu-btn block bg-green lg margin-xs" bindtap="">
+          <text class=""></text> 上传图片
+        </button>
+        <button class="cu-btn block bg-green lg margin-xs" bindtap="">
+          <text class=""></text> 上传视频
+        </button>
+        <button class="cu-btn block bg-green lg margin-xs" bindtap="">
+          <text class=""></text> 上传微信会话中的文件
+        </button>
+      </view>
+    </view>
+    </view>
+      <view class="cu-modal bottom-modal {{modalName=='downloadModal'?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="action text-blue" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl">
+        <button class="cu-btn block bg-green lg margin-xs" bindtap="">
+          <text class=""></text> 获取码
+        </button>
+        <button class="cu-btn block bg-green lg margin-xs" bindtap="">
+          <text class=""></text> 二维码
+        </button>
+      </view>
+    </view>
+  </view>
+</view>

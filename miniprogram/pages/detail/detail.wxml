@@ -1,2 +1,31 @@
-<!--pages/detail/detail.wxml-->
-<text>pages/detail/detail.wxml</text>
+<view class="cu-card dynamic ">
+  <view class="cu-item shadow">
+    <view class="cu-list menu-avatar">
+      <view class="cu-item">
+        <view class="cu-avatar round lg" style="background-image:url();"></view>
+        <view class="content flex-sub">
+          <view>
+            上传者昵称</view>
+          <view class="text-gray text-sm flex justify-between">
+            上传时间
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="cu-card article">
+      <view class="cu-item shadow ">
+        <view class="content">
+          <image src="/images/jpg.png " mode="aspectFit "></image>
+          <view class="des">
+            <view class="text-content ">文件名</view>
+            <view>
+              <view class="cu-tag bg-red light  round ">文件大小</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <button class="cu-btn block bg-green margin-tb-sm lg">
+    <text class="cuIcon-down"></text> 下载</button>
+</view>

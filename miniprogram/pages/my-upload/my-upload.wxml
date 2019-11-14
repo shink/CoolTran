@@ -1,2 +1,38 @@
-<!--pages/my-upload/my-upload.wxml-->
-<text>pages/my-upload/my-upload.wxml</text>
+<view class="cu-list menu-avatar">
+  <view class="cu-item">
+    <view class="cu-avatar round lg" style="background-image:url();"></view>
+    <view class="content flex-sub">
+      <view class="text-grey">
+        <open-data type="userNickName" class="profile-name"></open-data>
+      </view>
+    </view>
+  </view>
+</view>
+  <view class="cu-card article">
+    <view class="cu-item shadow ">
+      <view class="content">
+        <image src="/images/jpg.png " mode="aspectFit "></image>
+        <view class="des ">
+          <view class="text-content ">file-1</view>
+          <view>
+            <view class="cu-tag bg-red light round ">文件大小</view>
+            <view class="cu-tag bg-green light round ">上传时间</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+    <view class="cu-card article">
+    <view class="cu-item shadow ">
+      <view class="content">
+        <image src="/images/doc.png " mode="aspectFit "></image>
+        <view class="des ">
+          <view class="text-content ">file-2</view>
+          <view>
+            <view class="cu-tag bg-red light round ">文件大小</view>
+            <view class="cu-tag bg-green light round ">上传时间</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>

@@ -1,15 +1,38 @@
-<!--pages/my/my.wxml-->
+<scroll-view scroll-y class="scrollPage">
+  <view class="UCenter-bg">
 
-<view class="my-container">
-  <view class="userinfo">
-    <block wx:if="{{isLogin && canIUse}}">
-      <open-data class="userinfo-avatar" type="userAvatarUrl"></open-data>
-      <open-data class="userinfo-nickname" type="userNickName"></open-data>
+    <block wx:if="{{isLogin}}">
+      <view class="cu-avatar xl round" style="background-image:url({{avatarUrl}});"></view>
+    <view class="text-xl">  <open-data type="userNickName" class="profile-name"></open-data>
+    </view>
     </block>
-    <block wx:elif="{{!isLogin && canIUse}}">
+    <block wx:else>
       <button class="cu-btn block line-orange lg" open-type="getUserInfo" bindgetuserinfo="doGetUserInfo" lang="zh_CN">
         <text class="cuIcon-upload"></text> 登录</button>
     </block>
-    <block wx:else>can't use</block>
+    <image src="/images/wave.gif" mode="scaleToFill" class="gif-wave"></image>
   </view>
-</view>
+  <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
+    <view class="cu-item arrow">
+      <navigator class="content" url="/pages/my-upload/my-upload" hover-class="none">
+        <text class="cuIcon-upload text-green"></text>
+        <text class="text-grey">我的上传文件</text>
+      </navigator>
+    </view>
+    <view class="cu-item arrow">
+      <navigator class="content" url="/pages/my-download/my-download" hover-class="none">
+        <text class="cuIcon-down text-green"></text>
+        <text class="text-grey">我的下载文件</text>
+      </navigator>
+    </view>
+
+
+    <view class="cu-item arrow">
+      <navigator class="content" url="/pages/about/about" hover-class="none">
+        <image src="/images/coolTran.png" class="png" mode="aspectFit"></image>
+        <text class="text-grey">关于小程序</text>
+      </navigator>
+    </view>
+  </view>
+  <view class="cu-tabbar-height"></view>
+</scroll-view>

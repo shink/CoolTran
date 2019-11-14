@@ -7,19 +7,18 @@
   <view class="cu-bar tabbar bg-white shadow foot">
     <view class="action" bindtap="NavChange" data-cur="home">
       <view class='cuIcon-cu-image'>
-        <image src="/images/tabbar/basics{{pageCur=='home'?'_cur':''}}.png"></image>
+        <image src="/images/tabbar/home{{pageCur=='home'?'_cur':''}}.png"></image>
       </view>
       <view class="{{pageCur=='home'?'text-green':'text-gray'}}">首页</view>
     </view>
-
     <view class="action text-gray add-action">
-      <button class="cu-btn cuIcon-scan bg-green shadow" bindtap='scan'></button>
-      扫一扫
+      <button class="cu-btn cuIcon-add bg-green shadow"></button>
+      
     </view>
 
     <view class="action" bindtap="NavChange" data-cur="my">
       <view class='cuIcon-cu-image'>
-        <image src="/images/tabbar/about{{pageCur=='my'?'_cur':''}}.png"></image>
+        <image src="/images/tabbar/my{{pageCur=='my'?'_cur':''}}.png"></image>
       </view>
       <view class="{{pageCur=='my'?'text-green':'text-gray'}}">我的</view>
     </view>

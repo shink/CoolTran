@@ -30,10 +30,48 @@
 		"game": {
 			"list": []
 		},
+		"gamePlugin": {
+			"current": -1,
+			"list": []
+		},
 		"miniprogram": {
-			"current": 0,
+			"current": -1,
 			"list": [
-				{}
+				{
+					"id": -1,
+					"name": "我的页面",
+					"pathName": "pages/my/my",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 1,
+					"name": "主页面",
+					"pathName": "pages/home/home",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 2,
+					"name": "我的上传文件",
+					"pathName": "pages/my-upload/my-upload",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 3,
+					"name": "文件详情",
+					"pathName": "pages/detail/detail",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "我的下载文件",
+					"pathName": "pages/my-download/my-download",
+					"query": "",
+					"scene": null
+				}
 			]
 		}
 	}
