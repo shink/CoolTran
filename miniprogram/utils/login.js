@@ -2,6 +2,8 @@ const Bmob = require('bmob.js');
 const common = require("common.js");
 const md5Util = require("md5.js");
 
+const app = getApp();
+
 /**
  * 登录，得到code后请求session_key，并将信息写入缓存，未操作app.globalData
  */
@@ -60,7 +62,6 @@ function doLogin() {
                         });
                       }
 
-
                     }
                   });
                 },
@@ -100,7 +101,7 @@ function doLogin() {
         resolve(result);
       }
     })
-  })
+  });
 
   return promise;
 }

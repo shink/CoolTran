@@ -3,14 +3,15 @@
 
     <block wx:if="{{isLogin}}">
       <view class="cu-avatar xl round" style="background-image:url({{avatarUrl}});"></view>
-    <view class="text-xl">  <open-data type="userNickName" class="profile-name"></open-data>
-    </view>
+      <view class="text-xl">
+        <open-data type="userNickName" class="profile-name"></open-data>
+      </view>
     </block>
     <block wx:else>
       <button class="cu-btn block line-orange lg" open-type="getUserInfo" bindgetuserinfo="doGetUserInfo" lang="zh_CN">
-        <text class="cuIcon-upload"></text> 登录</button>
+        <text class="cuIcon-emoji"></text> 登录</button>
     </block>
-    <image src="/images/wave.gif" mode="scaleToFill" class="gif-wave"></image>
+    <image src="/images/my/wave.gif" mode="scaleToFill" class="gif-wave"></image>
   </view>
   <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
     <view class="cu-item arrow">
@@ -29,7 +30,7 @@
 
     <view class="cu-item arrow">
       <navigator class="content" url="/pages/about/about" hover-class="none">
-        <image src="/images/coolTran.png" class="png" mode="aspectFit"></image>
+        <image src="/images/my/coolTran.png" class="png" mode="aspectFit"></image>
         <text class="text-grey">关于小程序</text>
       </navigator>
     </view>

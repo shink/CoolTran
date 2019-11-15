@@ -8,31 +8,31 @@
     </view>
   </view>
 </view>
-  <view class="cu-card article">
-    <view class="cu-item shadow ">
-      <view class="content">
-        <image src="/images/jpg.png " mode="aspectFit "></image>
-        <view class="des ">
-          <view class="text-content ">file-1</view>
-          <view>
-            <view class="cu-tag bg-red light round ">文件大小</view>
-            <view class="cu-tag bg-green light round ">上传时间</view>
-          </view>
+<view class="cu-card article">
+  <view class="cu-item shadow ">
+    <view class="content">
+      <image src="/images/file-icon/jpg.png " mode="aspectFit "></image>
+      <view class="des ">
+        <view class="text-content ">file-1</view>
+        <view>
+          <view class="cu-tag bg-red light round ">文件大小</view>
+          <view class="cu-tag bg-green light round ">上传时间</view>
         </view>
       </view>
     </view>
   </view>
-    <view class="cu-card article">
-    <view class="cu-item shadow ">
-      <view class="content">
-        <image src="/images/doc.png " mode="aspectFit "></image>
-        <view class="des ">
-          <view class="text-content ">file-2</view>
-          <view>
-            <view class="cu-tag bg-red light round ">文件大小</view>
-            <view class="cu-tag bg-green light round ">上传时间</view>
-          </view>
+</view>
+<view class="cu-card article">
+  <view class="cu-item shadow ">
+    <view class="content">
+      <image src="/images/file-icon/doc.png " mode="aspectFit "></image>
+      <view class="des ">
+        <view class="text-content ">file-2</view>
+        <view>
+          <view class="cu-tag bg-red light round ">文件大小</view>
+          <view class="cu-tag bg-green light round ">上传时间</view>
         </view>
       </view>
     </view>
   </view>
+</view>

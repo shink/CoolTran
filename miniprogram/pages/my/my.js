@@ -60,8 +60,8 @@ Page({
     } else {
       //用户按了拒绝按钮
       wx.showModal({
-        title: '警告',
-        content: '授权后才可发送或接收文件哦',
+        title: '提醒',
+        content: '授权后才可上传或接收文件哦',
         showCancel: false,
         confirmText: '返回授权',
         success: function(res) {

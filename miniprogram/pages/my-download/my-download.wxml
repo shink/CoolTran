@@ -11,7 +11,7 @@
 <view class="cu-card article">
   <view class="cu-item shadow ">
     <view class="content">
-      <image src="/images/jpg.png " mode="aspectFit "></image>
+      <image src="/images/file-icon/jpg.png " mode="aspectFit "></image>
       <view class="des ">
         <view class="text-content ">file-1</view>
         <view>
@@ -21,9 +21,9 @@
       </view>
     </view>
   </view>
-    <view class="cu-item shadow ">
+  <view class="cu-item shadow ">
     <view class="content">
-      <image src="/images/jpg.png " mode="aspectFit "></image>
+      <image src="/images/file-icon/jpg.png " mode="aspectFit "></image>
       <view class="des ">
         <view class="text-content ">file-2</view>
         <view>

@@ -1,10 +1,10 @@
 <!--pages/home/home.wxml-->
 <view class="margin-lg">
   <button class="cu-btn block bg-green margin-tb-sm lg" bindtap="showModal" data-target="uploadModal">
-    <text class="cuIcon-down"></text> 上传文件
+    <text class="cuIcon-upload"></text> 上传文件
   </button>
   <button class="cu-btn block bg-green margin-tb-sm lg" bindtap="showModal" data-target="downloadModal">
-    <text class="cuIcon-upload"></text> 获取文件
+    <text class="cuIcon-down"></text> 获取文件
   </button>
   <view class="cu-modal bottom-modal {{modalName=='uploadModal'?'show':''}}">
     <view class="cu-dialog">
@@ -14,19 +14,19 @@
         </view>
       </view>
       <view class="padding-xl">
-        <button class="cu-btn block bg-green lg margin-xs" bindtap="">
+        <button class="cu-btn block bg-green lg margin-xs" bindtap="uploadImage">
           <text class=""></text> 上传图片
         </button>
-        <button class="cu-btn block bg-green lg margin-xs" bindtap="">
+        <button class="cu-btn block bg-green lg margin-xs" bindtap="uploadVideo">
           <text class=""></text> 上传视频
         </button>
-        <button class="cu-btn block bg-green lg margin-xs" bindtap="">
+        <button class="cu-btn block bg-green lg margin-xs" bindtap="uploadMessageFile">
           <text class=""></text> 上传微信会话中的文件
         </button>
       </view>
     </view>
-    </view>
-      <view class="cu-modal bottom-modal {{modalName=='downloadModal'?'show':''}}">
+  </view>
+  <view class="cu-modal bottom-modal {{modalName=='downloadModal'?'show':''}}">
     <view class="cu-dialog">
       <view class="cu-bar bg-white justify-end">
         <view class="action text-blue" bindtap="hideModal">
