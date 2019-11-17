@@ -112,11 +112,13 @@ function doLogin() {
 function checkSess() {
 
   let promise = new Promise(function(resolve, reject) {
+    //  是否过期
     var expired = true;
 
     wx.checkSession({
       success: res => {
         //  session未过期
+        console.log(res);
         expired = false;
         resolve(expired);
       },

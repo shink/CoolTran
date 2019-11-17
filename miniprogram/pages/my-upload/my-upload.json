@@ -1,4 +1,5 @@
 {
   "usingComponents": {},
-  "navigationBarTitleText": "我的上传"
+  "navigationBarTitleText": "我的上传",
+  "enablePullDownRefresh": true
 }

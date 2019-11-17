@@ -34,11 +34,8 @@
         </view>
       </view>
       <view class="padding-xl">
-        <button class="cu-btn block bg-green lg margin-xs" bindtap="">
-          <text class=""></text> 获取码
-        </button>
-        <button class="cu-btn block bg-green lg margin-xs" bindtap="">
-          <text class=""></text> 二维码
+        <button class="cu-btn block bg-green lg margin-xs" bindtap="getFileByCode" data-source="byCode">
+          <text class=""></text> 取件码
         </button>
       </view>
     </view>

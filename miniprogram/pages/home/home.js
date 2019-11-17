@@ -14,9 +14,6 @@ Page({
   onLoad: function(options) {
     console.log("home: onLoad");
 
-    //  添加监听器
-    // app.setWatcher(this);
-
     if (typeof(app.globalData.isLogin) != "undefined") {
       //  app.js已返回结果
       console.log('home load，app已返回登录信息');
@@ -38,16 +35,9 @@ Page({
 
   },
 
-  /**
-   * 监听数据变化
-   */
-  // watch: {
-  //   isLogin: function(newValue, oldValue) {
-  //     console.log('isLogin已发生变化，newValue: ' + newValue + ', oldValue: ' + oldValue);
-
-  //     console.log(this.data.isLogin);
-  //   }
-  // },
+  onHide: function() {
+    this.hideModal();
+  },
 
   /**
    * 显示模式窗口
@@ -57,12 +47,12 @@ Page({
       this.setData({
         isLogin: app.globalData.isLogin,
         modalName: e.currentTarget.dataset.target
-      })
+      });
     } else {
       wx.showToast({
         title: '请先登录',
         icon: 'none'
-      })
+      });
     }
   },
 
@@ -75,7 +65,6 @@ Page({
     })
   },
 
-
   /**
    * 上传图片
    */
@@ -87,13 +76,11 @@ Page({
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
-
         //  调用upload进行文件上传
-        that.upload(res.tempFilePaths[0]);
+        that.upload(res.tempFiles[0].path, res.tempFiles[0].size);
       },
     })
   },
-
 
   /**
    * 上传视频
@@ -107,7 +94,6 @@ Page({
       camera: 'back',
       success: res => {
         //  调用upload进行文件上传
-        console.log(res);
         that.upload(res.tempFilePath, res.size);
       }
     })
@@ -122,77 +108,113 @@ Page({
     wx.chooseMessageFile({
       count: 1,
       success: res => {
-        console.log(res);
-
-        that.upload(res.tempFiles[0].path, res.tempFiles[0].size);
+        //  调用upload进行文件上传
+        that.upload(res.tempFiles[0].path, res.tempFiles[0].size, res.tempFiles[0].name);
       }
     });
   },
 
   /**
    * 上传并添加记录到数据库
+   * path：文件的临时路径
+   * size：文件大小
+   * name：文件名
    */
-  upload: function(path, size = -1) {
+  upload: function(path, size, name = null) {
     wx.showLoading({
       title: '上传中',
     });
 
     // 文件类型
-    let type = /\w+$/.exec(path)[0];
-    let currentTime = new Date();
-    // 将时间戳转化成指定时间格式,存于数据库中
-    let formatTime = timeUtil.formatTime(currentTime, 'Y/M/D h:m:s');
-    // 生成文件名(时间戳+源文件后缀名)
-    let fileName = currentTime.getTime() + '.' + type;
+    var type = /\w+$/.exec(path)[0];
     //  上传时间
-    let time = timeUtil.formatTime(new Date());
+    var currentTime = new Date();
+    var time = timeUtil.formatTime(currentTime);
+    // 生成文件名(时间戳+源文件后缀名)
+    var fileName = name ? name : currentTime.getTime() + '.' + type;
+    //  转换size单位
+    size = fileUtil.converSize(size);
+    // 获取code
+    fileUtil.generateCode().then(res => {
+      var code = res;
 
-    // 获取文件大小size
-    fileUtil.getSize(path, size).then(res => {
-      let size = res;
+      if (code === "") {
+        //  获取code失败
+        wx.hideLoading();
+        wx.showToast({
+          title: '上传失败',
+          icon: 'none'
+        });
+        this.hideModal();
+      } else {
+        //  上传
+        wx.cloud.uploadFile({
+          cloudPath: fileName,
+          filePath: path, // 文件临时路径
+          success: res => {
+            let openid = wx.getStorageSync('openid');
+            let fileID = res.fileID;
 
-      //  上传
-      wx.cloud.uploadFile({
-        cloudPath: fileName,
-        filePath: path, // 文件临时路径
-        success: res => {
-          let fileID = res.fileID;
+            let uploaderInfo = {
+              avatarUrl: wx.getStorageSync('avatarUrl'),
+              nickName: wx.getStorageSync('nickName')
+            };
 
-          //  将上传文件记录存储到数据库
-          wx.cloud.callFunction({
-            name: 'file-upload',
-            data: {
-              openid: wx.getStorageSync('openid'),
-              fileID: fileID,
+            let fileInfo = {
               fileName: fileName,
               type: type,
               size: size,
-              time: time,
-              code: 'K57F'
-            },
-            success: res => {
-              wx.hideLoading();
-              wx.showToast({
-                title: '上传成功'
-              });
-            },
-            fail: error => {
-              wx.hideLoading();
-              wx.showToast({
-                title: '上传失败',
-                icon: 'none'
-              });
-            },
-            complete: () => {
-              this.hideModal();
-            }
-          });
-        }
-      })
+              time: time
+            };
+
+            //  将上传文件记录存储到数据库
+            wx.cloud.callFunction({
+              name: 'file-upload',
+              data: {
+                openid: openid,
+                fileID: fileID,
+                code: code,
+                uploaderInfo: uploaderInfo,
+                fileInfo: fileInfo
+              },
+              success: res => {
+                wx.hideLoading();
+                wx.showToast({
+                  title: '上传成功'
+                });
+              },
+              fail: error => {
+                wx.hideLoading();
+                wx.showToast({
+                  title: '上传失败',
+                  icon: 'none'
+                });
+              },
+              complete: () => {
+                this.hideModal();
+              }
+            });
+          }
+        })
+      }
     });
 
-
   },
+
+  /**
+   * 取件码取文件，跳转到detail
+   */
+  getFileByCode: function(e) {
+    let source = e.target.dataset.source;
+    // let code = '7yeh';
+    // let code = 'vA5z';
+    let code = 'xUt7';
+    // let code = 'klih';
+    wx.navigateTo({
+      url: '/pages/detail/detail?source=' + source + '&code=' + code
+    })
+  },
+
 
   // 检查用户登录状态（在home页面好像没用，先放这里，写别的页面的时候再用）
   checkStatus: function() {

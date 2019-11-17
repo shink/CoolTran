@@ -1,15 +1,12 @@
 //app.js
-
 const Bmob = require('utils/bmob.js');
 const common = require("utils/common.js");
 const loginUtil = require("utils/login.js");
-const watchUtil = require('utils/watch.js');
 Bmob.initialize("d3c65fe219129077c74c1a2dbccf89ab", "ccd8823cb404c9ca9c2969ded2a2712a");
 
 App({
 
   onLaunch: function() {
-
     console.log("app: onLaunch");
 
     if (!wx.cloud) {
@@ -24,7 +21,6 @@ App({
     try {
       wx.getSetting({
         success: res => {
-          console.log(res);
           wx.showLoading({
             title: '加载中',
           });
@@ -34,13 +30,14 @@ App({
 
             loginUtil.doLogin().then(res => {
               console.log(res);
+              //  告诉全局app.js已经完成
               this.globalData.isLogin = res.isLogin;
 
               //  此时home可能已经onLoad，所以加入回调函数，避免home错过登录信息
               if (this.userInfoReadyCallback) {
                 this.userInfoReadyCallback(res.isLogin);
               }
-            })
+            });
           } else {
             //  尚未授权，且缓存中无openid
             console.log('尚未授权，且缓存中无openid');
@@ -51,10 +48,6 @@ App({
             wx.hideLoading();
           }
         },
-
-        // complete: () => {
-        //   wx.hideLoading();
-        // }
       })
     } catch (e) {
       console.log(e);
@@ -65,10 +58,6 @@ App({
 
   globalData: {
 
-  },
-
-  setWatcher: function(page) {
-    watchUtil.setWatcher(page);
   }
 
 })
