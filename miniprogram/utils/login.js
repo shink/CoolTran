@@ -118,7 +118,6 @@ function checkSess() {
     wx.checkSession({
       success: res => {
         //  session未过期
-        console.log(res);
         expired = false;
         resolve(expired);
       },

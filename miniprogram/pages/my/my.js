@@ -1,9 +1,11 @@
-const app = getApp();
 const loginUtil = require("../../utils/login.js");
+
+const app = getApp();
 
 Page({
 
   data: {
+    isCheck: false,
     isLogin: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     userInfo: {},
@@ -12,33 +14,44 @@ Page({
   },
 
   onLoad: function(options) {
-    console.log("my: onLoad");
+    wx.showLoading({
+      title: '加载中',
+    });
 
-    this.setData({
-      isLogin: app.globalData.isLogin
-    })
+    //  检查session
+    loginUtil.checkSess().then(res => {
+      if (res) {
+        //  已过期
+        app.globalData.isLogin = false;
+      } else {
+        //  未过期
+        app.globalData.isLogin = true;
 
-    if (this.data.isLogin) {
-      //  已经登录过，则显示用户信息
+        this.setData({
+          userInfo: wx.getStorageSync('userInfo'),
+          avatarUrl: wx.getStorageSync('avatarUrl'),
+          nickName: wx.getStorageSync('nickName')
+        });
+      }
       this.setData({
-        userInfo: wx.getStorageSync('userInfo'),
-        avatarUrl: wx.getStorageSync('avatarUrl'),
-        nickName: wx.getStorageSync('nickName')
+        isCheck: true,
+        isLogin: app.globalData.isLogin
       });
-    } else if (this.data.canIUse) {
-      //  尚未登录，但版本支持
+      wx.hideLoading();
+    }).catch(e => {
+      console.log(e);
+      this.setData({
+        isCheck: false
+      });
+      wx.hideLoading();
+    });
 
-    } else {
-      // 用户版本不支持
-
-    }
   },
 
   /**
    * 登录授权按钮
    */
   doGetUserInfo: function(e) {
-    console.log('doGetUserInfo');
 
     if (e.detail.userInfo) {
       //用户按了允许授权按钮
@@ -88,10 +101,4 @@ Page({
 
   },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function() {
-
-  }
 })

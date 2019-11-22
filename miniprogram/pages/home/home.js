@@ -8,7 +8,8 @@ Page({
 
   data: {
     isLogin: false,
-    modalName: ""
+    modalName: "",
+    input_code: ""
   },
 
   onLoad: function(options) {
@@ -69,49 +70,140 @@ Page({
    * 上传图片
    */
   uploadImage: function() {
-    const that = this;
-    //  选择图片
-    wx.chooseImage({
-      count: 1,
-      sizeType: ['original', 'compressed'],
-      sourceType: ['album', 'camera'],
-      success: res => {
-        //  调用upload进行文件上传
-        that.upload(res.tempFiles[0].path, res.tempFiles[0].size);
-      },
-    })
+    if (this.data.isLogin || app.globalData.isLogin) {
+      const that = this;
+      const FSM = wx.getFileSystemManager();
+
+      //  选择图片
+      wx.chooseImage({
+        count: 1,
+        sizeType: ['original', 'compressed'],
+        sourceType: ['album', 'camera'],
+        success: res => {
+          wx.showLoading({
+            title: '上传中',
+          });
+
+          let filePath = res.tempFiles[0].path;
+          let fileSize = res.tempFiles[0].size;
+          //  调用upload进行文件上传
+          FSM.readFile({
+            filePath: res.tempFilePaths[0],
+            encoding: "base64",
+            success: function(e) {
+              let reqData = {
+                app_id: '2124073259',
+                // format:'1',
+                image: e.data,
+                // topk: '1',
+                time_stamp: fileUtil.time_stamp(), //时间戳
+                nonce_str: fileUtil.randomString(20), //随机字符串
+                sign: '' //接口鉴权
+              }
+
+              reqData.sign = fileUtil.getReqSign(reqData, 'dRsWYbJ4tUOiwVbE');
+
+              //调用request函数和腾讯AI通信
+              wx.request({
+                url: 'https://api.ai.qq.com/fcgi-bin/vision/vision_porn',
+                method: 'POST',
+                data: {
+                  app_id: reqData.app_id,
+                  image: reqData.image,
+                  // topk: reqData.topk,
+                  time_stamp: reqData.time_stamp, //时间戳
+                  nonce_str: reqData.nonce_str, //随机字符串
+                  sign: reqData.sign //接口鉴权
+                  // format:reqData.format
+                },
+                header: {
+                  "Content-Type": "application/x-www-form-urlencoded"
+                },
+
+                success: function(res) {
+                  let porn = res.data.data.tag_list[2].tag_confidence;
+                  console.log(porn);
+                  if (porn <= 83) {
+                    //  上传
+                    that.upload(filePath, fileSize);
+                  } else {
+                    wx.hideLoading();
+                    wx.showToast({
+                      title: '图片违规',
+                      icon: 'none'
+                    });
+                  }
+
+                },
+                fail: console.error
+              })
+            }
+          });
+
+        },
+      })
+    } else {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none'
+      });
+    }
   },
 
   /**
    * 上传视频
    */
   uploadVideo: function() {
-    const that = this;
-    //  选择视频
-    wx.chooseVideo({
-      sourceType: ['album', 'camera'],
-      maxDuration: 60,
-      camera: 'back',
-      success: res => {
-        //  调用upload进行文件上传
-        that.upload(res.tempFilePath, res.size);
-      }
-    })
+
+    if (this.data.isLogin || app.globalData.isLogin) {
+      const that = this;
+      //  选择视频
+      wx.chooseVideo({
+        sourceType: ['album', 'camera'],
+        maxDuration: 60,
+        camera: 'back',
+        success: res => {
+          wx.showLoading({
+            title: '上传中',
+          });
+          //  调用upload进行文件上传
+          that.upload(res.tempFilePath, res.size);
+        }
+      })
+    } else {
+      wx.hideLoading();
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none'
+      });
+    }
   },
 
   /**
    * 上传会话中的文件
    */
   uploadMessageFile: function() {
-    const that = this;
 
-    wx.chooseMessageFile({
-      count: 1,
-      success: res => {
-        //  调用upload进行文件上传
-        that.upload(res.tempFiles[0].path, res.tempFiles[0].size, res.tempFiles[0].name);
-      }
-    });
+    if (this.data.isLogin || app.globalData.isLogin) {
+      const that = this;
+
+      wx.chooseMessageFile({
+        count: 1,
+        success: res => {
+          wx.showLoading({
+            title: '上传中',
+          });
+          //  调用upload进行文件上传
+          that.upload(res.tempFiles[0].path, res.tempFiles[0].size, res.tempFiles[0].name);
+        }
+      });
+    } else {
+      wx.hideLoading();
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none'
+      });
+    }
   },
 
   /**
@@ -121,9 +213,6 @@ Page({
    * name：文件名
    */
   upload: function(path, size, name = null) {
-    wx.showLoading({
-      title: '上传中',
-    });
 
     // 文件类型
     var type = /\w+$/.exec(path)[0];
@@ -202,17 +291,54 @@ Page({
   },
 
   /**
+   * 监听取件码输入框，并获取输入数据
+   */
+  inputCode: function(e) {
+    this.setData({
+      input_code: e.detail.value
+    });
+  },
+
+  /**
    * 取件码取文件，跳转到detail
    */
-  getFileByCode: function(e) {
-    let source = e.target.dataset.source;
-    // let code = '7yeh';
-    // let code = 'vA5z';
-    let code = 'xUt7';
-    // let code = 'klih';
-    wx.navigateTo({
-      url: '/pages/detail/detail?source=' + source + '&code=' + code
-    })
+  getFileByCode: function() {
+    let code = this.data.input_code;
+
+    wx.cloud.callFunction({
+      name: 'query-code',
+      data: {
+        code: code
+      },
+      success: res => {
+
+        if (res.result.data.length === 0) {
+          //  无该记录
+          wx.hideLoading();
+          wx.showToast({
+            title: '无该记录',
+            icon: 'none'
+          });
+        } else {
+          let data = JSON.stringify(res.result.data[0]);
+
+          wx.hideLoading();
+          wx.navigateTo({
+            url: '/pages/detail/detail?data=' + data
+          });
+        }
+
+      },
+      fail: error => {
+        console.log(error);
+        wx.hideLoading();
+        wx.showToast({
+          title: '查询出错',
+          icon: 'none'
+        });
+      },
+    });
+
   },
 
 

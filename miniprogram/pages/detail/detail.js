@@ -1,51 +1,66 @@
 const timeUtil = require('../../utils/util.js');
 const fileUtil = require('../../utils/file.js');
+const loginUtil = require('../../utils/login.js');
 
 const app = getApp();
 
 Page({
 
   data: {
+    isCheck: false, //  检查session是否过期，session在整个生命周期中状态一致，检查一遍后无需多次检查
+    data: {},
     uploaderInfo: {},
     fileInfo: {},
     fileID: '',
     typeNum: 0,
-    download_button_name: ''
+    download_button_name: '',
+    operate_name: ''
   },
 
   onLoad: function(options) {
     wx.showLoading({
       title: '加载中',
     });
-    let code = options.code;
 
-    wx.cloud.callFunction({
-      name: 'query-code',
-      data: {
-        code: code
-      },
-      success: res => {
-        let data = res.result.data[0];
-        let buttonName = ['获取下载链接', '保存图片到本地', '保存视频到本地'];
-        let typeNum = fileUtil.judgeType(data.fileInfo.type);
-
-        this.setData({
-          uploaderInfo: data.uploaderInfo,
-          fileInfo: data.fileInfo,
-          fileID: data.fileID,
-          typeNum: typeNum,
-          download_button_name: buttonName[typeNum]
-        });
-
-      },
-      fail: error => {
-        console.log(error);
-      },
-      complete: () => {
-        wx.hideLoading();
+    //  检查session
+    loginUtil.checkSess().then(res => {
+      this.setData({
+        isCheck: true
+      });
+      if (res) {
+        //  已过期
+        app.globalData.isLogin = false;
+      } else {
+        //  未过期
+        app.globalData.isLogin = true;
       }
 
+      let data = JSON.parse(options.data);
+
+      let buttonName = ['获取下载链接', '保存图片到本地', '保存视频到本地', '获取下载链接'];
+      let operate_name_array = ['获取', '保存', '保存', '获取'];
+      let typeNum = fileUtil.judgeType(data.fileInfo.type);
+
+      this.setData({
+        data: data,
+        uploaderInfo: data.uploaderInfo,
+        fileInfo: data.fileInfo,
+        fileID: data.fileID,
+        typeNum: typeNum,
+        download_button_name: buttonName[typeNum],
+        operate_name: operate_name_array[typeNum]
+      });
+
+      wx.hideLoading();
+
+    }).catch(e => {
+      console.log(e);
+      this.setData({
+        isCheck: false
+      });
+      wx.hideLoading();
     });
+
   },
 
   /**
@@ -53,18 +68,12 @@ Page({
    */
   download: function() {
 
-    if (!app.globalData.isLogin) {
-      //  未登录
-      wx.showToast({
-        title: '请先登录',
-        icon: 'none'
-      })
-    } else {
+    if (this.data.isCheck && app.globalData.isLogin) {
       wx.showLoading({
-        title: '下载中',
+        title: this.data.operate_name + '中',
       });
 
-      if (this.data.typeNum === 0) {
+      if (this.data.typeNum === 0 || this.data.typeNum === 3) {
         //  生成下载链接
         fileUtil.generateUrl(this.data.fileID).then(res => {
           console.log(res);
@@ -92,12 +101,19 @@ Page({
             console.log(error);
             wx.hideLoading();
             wx.showToast({
-              title: '下载失败',
+              title: this.data.operate_name + '失败',
               icon: 'none'
             });
           }
         });
       }
+
+    } else {
+      //  未登录
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none'
+      });
     }
   },
 
@@ -109,12 +125,11 @@ Page({
       //  保存失败
       wx.hideLoading();
       wx.showToast({
-        title: '下载失败',
+        title: this.data.operate_name + '失败',
         icon: 'none'
       });
     } else {
       //  保存成功
-
       let openid = wx.getStorageSync('openid');
       let fileID = this.data.fileID;
       //  下载时间
@@ -143,7 +158,7 @@ Page({
         success: res => {
           wx.hideLoading();
           wx.showToast({
-            title: '下载成功'
+            title: this.data.operate_name + '成功'
           });
 
           //  再次判断文件类型是否是其他，若是其他则弹出显示框，显示临时URL
@@ -154,7 +169,7 @@ Page({
         fail: error => {
           wx.hideLoading();
           wx.showToast({
-            title: '下载失败',
+            title: this.data.operate_name + '失败',
             icon: 'none'
           });
         }
@@ -163,18 +178,23 @@ Page({
   },
 
   /**
-   * 显示临时URL
-   */
-  showTempURL: function(url) {
-    wx.showToast({
-      title: url,
-      icon: 'none'
-    })
-  },
-  /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
+  onShareAppMessage: function(e) {
+    if (this.data.isCheck && app.globalData.isLogin) {
+      let data = JSON.stringify(this.data.data);
 
+      if (e.from === 'menu') {
+        return {
+          title: this.data.fileInfo.fileName,
+          path: '/pages/detail/detail?data=' + data
+        }
+      }
+    } else {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none'
+      });
+    }
   }
 })

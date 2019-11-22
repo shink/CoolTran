@@ -55,8 +55,6 @@ function getRandomCode() {
 
   const array = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
-  let letter = Math.round(Math.random * 2);
-
   for (let i = 0; i < 4; i++) {
     let id = Math.round(Math.random() * 61);
     code += array[id];
@@ -102,11 +100,12 @@ function queryCode(code) {
 }
 
 /**
- * 判断文件类型：0.其他 1.图片 2.视频
+ * 判断文件类型：0.其他 1.图片 2.视频 3.文档
  */
 function judgeType(type) {
   const imageType = ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG', 'gif', 'GIF'];
   const videoType = ['mp4', 'MP4'];
+  const documentType = ['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'pdf'];
 
   if (imageType.indexOf(type) > -1) {
     //  是图片
@@ -114,6 +113,8 @@ function judgeType(type) {
   } else if (videoType.indexOf(type) > -1) {
     //  是视频
     return 2;
+  } else if (documentType.indexOf(type) > -1) {
+    return 3;
   } else {
     return 0;
   }
@@ -130,7 +131,6 @@ function saveImage(path) {
     wx.saveImageToPhotosAlbum({
       filePath: path,
       success: res => {
-        console.log(res);
         success = true;
         resolve(success);
       },
@@ -156,7 +156,6 @@ function saveVideo(path) {
     wx.saveVideoToPhotosAlbum({
       filePath: path,
       success: res => {
-        console.log(res);
         success = true;
         resolve(success);
       },
@@ -197,11 +196,132 @@ function generateUrl(fileID) {
   return promise;
 }
 
+/**
+ * 查询我的上传和下载
+ */
+function queryMyFile(name) {
+  let promise = new Promise(function(resolve, reject) {
+
+    //  result[0]是否成功
+    let result = [false, []];
+
+    wx.cloud.callFunction({
+      name: name,
+      data: {
+        openid: wx.getStorageSync('openid')
+      },
+      success: res => {
+        result[0] = true;
+        result[1] = res.result.data;
+        resolve(result);
+      },
+      fail: error => {
+        resolve(result);
+      }
+    });
+
+  });
+  return promise;
+}
+
+/**
+ * 删除云数据库记录
+ */
+function deleteDB(name, fileID) {
+  let promise = new Promise(function(resolve, reject) {
+
+    //  删除是否成功
+    let success = false;
+
+    wx.cloud.callFunction({
+      name: name,
+      data: {
+        fileID: fileID
+      },
+      success: res => {
+        success = true;
+        resolve(success);
+      },
+      fail: error => {
+        resolve(result);
+      }
+    });
+
+  });
+  return promise;
+}
+
+/**
+ * JS生成随机字符串
+ * @param {Number} len 字节长度
+ */
+function randomString(len) {
+  len = len || 32;
+  var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'; /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+  var maxPos = $chars.length;
+  var pwd = '';
+  for (var i = 0; i < len; i++) {
+    pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+  }
+  return pwd;
+}
+
+/**
+ * 获取时间戳
+ */
+function time_stamp() {
+  var timestamp = new Date().getTime();
+  return parseInt(timestamp / 1000);
+}
+
+/**
+ * 生成数字签名
+ */
+function getReqSign(data, app_key) {
+  app_key = 'dRsWYbJ4tUOiwVbE'
+
+  try {
+    let tempJsonObj = {};
+    let sdic = Object.keys(data).sort();
+    sdic.map((item, index) => {
+      tempJsonObj[item] = data[sdic[index]]
+    })
+    // console.log('将返回的数据进行输出', tempJsonObj);
+
+    //按URL拼接键值对
+    let bb = '';
+    Object.keys(tempJsonObj).forEach((key, i) => {
+      if (tempJsonObj[key] !== '') {
+        bb += key + '=' + encodeURIComponent(tempJsonObj[key]) + '&'
+        // bb += key + '=' + this.URLEncode(tempJsonObj[key]) + '&'
+      }
+    });
+
+    //拼接URL
+    let cc = `${bb}app_key=${app_key}`;
+
+    //MD5加密
+    const md5Util = require('md5.js');
+    let dd = md5Util.hexMD5(cc);
+
+    let sign = dd.toUpperCase();
+    return sign;
+  } catch (e) {
+    console.log(e)
+    return data1;
+  }
+}
+
 module.exports = {
   converSize: converSize,
   generateCode: generateCode,
   judgeType: judgeType,
   saveImage: saveImage,
   saveVideo: saveVideo,
-  generateUrl: generateUrl
+  generateUrl: generateUrl,
+  queryMyFile: queryMyFile,
+  deleteDB: deleteDB,
+  randomString: randomString,
+  time_stamp: time_stamp,
+  getReqSign: getReqSign
 }

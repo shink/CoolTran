@@ -1,27 +1,26 @@
-<view class="cu-list menu-avatar">
-  <view class="cu-item">
-    <view class="cu-avatar round lg" style="background-image:url();"></view>
-    <view class="content flex-sub">
-      <view class="text-grey">
-        <open-data type="userNickName" class="profile-name"></open-data>
-      </view>
-    </view>
-  </view>
-</view>
-
-<view class="cu-card article" wx:for="{{uploadList}}" wx:key="{{item.fileID}}">
-
-  <view class="cu-item shadow ">
+<view class="cu-card article">
+  <view class="cu-item shadow" wx:for="{{uploadList}}" wx:key="{{item.fileID}}">
     <view class="content">
-      <image src="/images/file-icon/jpg.png " mode="aspectFit "></image>
-      <view class="des ">
-        <view class="text-content ">{{item.fileInfo.fileName}}</view>
-        <view>
+      <image src="/images/file-icon/{{item.fileInfo.type}}.png " class="margin-tb-lg" mode="aspectFit"></image>
+      <view class="desc">
+        <view class="text-content">
+          <text class="text-xxl text-black block">{{item.fileInfo.fileName}}</text>
           <view class="cu-tag bg-red light round ">{{item.fileInfo.size}}</view>
-          <view class="cu-tag bg-green light round ">{{item.fileInfo.time}}</view>
+          <view class="cu-tag bg-green light round ">{{item.fileInfo.time}}
+          </view>
+        </view>
+        <view class="margin-tb-sm cu-tag bg-white">
+          <button class="cu-btn round bg-green sm margin-right-sm" data-target="{{item}}" open-type="share">
+            <text class="cuIcon-share">分享</text>
+          </button>
+          <button class="cu-btn round bg-red sm" data-target="{{item.fileID}}" data-index="{{index}}" bindtap="deleteUpload">
+            <text class="cuIcon-delete">删除</text>
+          </button>
+          <button class="cu-btn round bg-blue sm margin-left-sm" data-target="{{item.fileID}}" data-type="{{item.fileInfo.type}}" bindtap="preview">
+            <text class="cuIcon-attention">预览</text>
+          </button>
         </view>
       </view>
     </view>
   </view>
-
 </view>

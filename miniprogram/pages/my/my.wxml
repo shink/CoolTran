@@ -13,6 +13,7 @@
     </block>
     <image src="/images/my/wave.gif" mode="scaleToFill" class="gif-wave"></image>
   </view>
+
   <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
     <view class="cu-item arrow">
       <navigator class="content" url="/pages/my-upload/my-upload" hover-class="none">
@@ -20,13 +21,13 @@
         <text class="text-grey">我的上传文件</text>
       </navigator>
     </view>
+
     <view class="cu-item arrow">
       <navigator class="content" url="/pages/my-download/my-download" hover-class="none">
         <text class="cuIcon-down text-green"></text>
         <text class="text-grey">我的下载文件</text>
       </navigator>
     </view>
-
 
     <view class="cu-item arrow">
       <navigator class="content" url="/pages/about/about" hover-class="none">
@@ -35,5 +36,7 @@
       </navigator>
     </view>
   </view>
+
   <view class="cu-tabbar-height"></view>
+
 </scroll-view>
