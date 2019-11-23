@@ -6,6 +6,7 @@ const app = getApp();
 Page({
   data: {
     isCheck: false,
+    isEmpty: false,
     downloadList: []
   },
 
@@ -33,6 +34,11 @@ Page({
             this.setData({
               downloadList: res[1]
             });
+            if (res[1].length === 0) {
+              this.setData({
+                isEmpty: true
+              });
+            }
             wx.hideLoading();
           } else {
             //  失败
@@ -73,6 +79,11 @@ Page({
         this.setData({
           downloadList: list
         });
+        if (list.length === 0) {
+          this.setData({
+            isEmpty: true
+          });
+        }
         wx.hideLoading();
         wx.showToast({
           title: '删除成功',
@@ -173,11 +184,34 @@ Page({
   onReachBottom: function() {
 
   },
+  // ListTouch触摸开始
+  ListTouchStart(e) {
+    this.setData({
+      ListTouchStart: e.touches[0].pageX
+    })
+  },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function() {
+  // ListTouch计算方向
+  ListTouchMove(e) {
+    this.setData({
+      ListTouchDirection: e.touches[0].pageX - this.data.ListTouchStart > 0 ? 'right' : 'left'
+    })
+  },
 
-  }
+  // ListTouch计算滚动
+  ListTouchEnd(e) {
+    if (this.data.ListTouchDirection == 'left') {
+      this.setData({
+        modalName: e.currentTarget.dataset.target
+      })
+    } else {
+      this.setData({
+        modalName: null
+      })
+    }
+    this.setData({
+      ListTouchDirection: null
+    })
+  },
+ 
 })

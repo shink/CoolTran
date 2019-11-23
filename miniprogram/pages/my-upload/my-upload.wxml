@@ -1,26 +1,42 @@
-<view class="cu-card article">
-  <view class="cu-item shadow" wx:for="{{uploadList}}" wx:key="{{item.fileID}}">
+<view class="cu-list menu-avatar" wx:if="{{!isEmpty}}">
+  <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}} solid-bottom {{index%2==0?'bg-cyan':''}} light" wx:for="{{uploadList}}" wx:key="{{item.fileID}}" bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd"
+    data-target="move-box-{{index}}">
+    <view class="cu-avatar lg">
+      <image src="/images/file-icon/{{item.fileInfo.type}}.png" class="png" mode="aspectFit"></image>
+
+    </view>
     <view class="content">
-      <image src="/images/file-icon/{{item.fileInfo.type}}.png " class="margin-tb-lg" mode="aspectFit"></image>
-      <view class="desc">
-        <view class="text-content">
-          <text class="text-xxl text-black block">{{item.fileInfo.fileName}}</text>
-          <view class="cu-tag bg-red light round ">{{item.fileInfo.size}}</view>
-          <view class="cu-tag bg-green light round ">{{item.fileInfo.time}}
-          </view>
-        </view>
-        <view class="margin-tb-sm cu-tag bg-white">
-          <button class="cu-btn round bg-green sm margin-right-sm" data-target="{{item}}" open-type="share">
-            <text class="cuIcon-share">分享</text>
-          </button>
-          <button class="cu-btn round bg-red sm" data-target="{{item.fileID}}" data-index="{{index}}" bindtap="deleteUpload">
-            <text class="cuIcon-delete">删除</text>
-          </button>
-          <button class="cu-btn round bg-blue sm margin-left-sm" data-target="{{item.fileID}}" data-type="{{item.fileInfo.type}}" bindtap="preview">
-            <text class="cuIcon-attention">预览</text>
-          </button>
-        </view>
+      <view class="text-black">{{item.fileInfo.fileName}}</view>
+      <view class="text-blue text-sm">
+        <view class="text-grey text-sm">{{item.fileInfo.size}}</view>
       </view>
+    </view>
+    <view class="action">
+      <view class="text-grey text-sm">{{item.fileInfo.time}}</view>
+    </view>
+    <view class="move">
+      <view class="bg-gradual-green text-xxl" data-target="{{item}}" open-type="share">
+        <button class="cu-btn bg-gradual-green" data-target="{{item}}" open-type="share">
+          分享
+        </button>
+      </view>
+      <view class="bg-gradual-blue">
+        <button class="cu-btn bg-gradual-blue" data-target="{{item.fileID}}" data-type="{{item.fileInfo.type}}" bindtap="preview">
+          预览
+        </button>
+      </view>
+      <view class="bg-gradual-red">
+        <button class="cu-btn bg-gradual-red" data-target="{{item.fileID}}" data-index="{{index}}" bindtap="deleteUpload">
+          删除
+        </button>
+      </view>
+    </view>
+  </view>
+</view>
+<view wx:else class="margin-top-xl">
+  <view class="flex-sub text-center">
+    <view class="text-xl padding">
+      <text class="text-black">您还没有上传过文件哦！</text>
     </view>
   </view>
 </view>

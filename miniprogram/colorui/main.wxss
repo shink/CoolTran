@@ -938,7 +938,7 @@ button.icon.lg {
 	text-align: center;
 	justify-content: center;
 	align-items: center;
-	background-color: #ccc;
+	/* background-color: #ccc; */
 	color: var(--white);
 	white-space: nowrap;
 	position: relative;
@@ -1243,14 +1243,14 @@ button.icon.lg {
 }
 
 .cu-list>.cu-item.move-cur {
-	transform: translateX(-260rpx)
+	transform: translateX(-390rpx)
 }
 
 .cu-list>.cu-item .move {
 	position: absolute;
 	right: 0;
 	display: flex;
-	width: 260rpx;
+	width: 390rpx;
 	height: 100%;
 	transform: translateX(100%)
 }
@@ -1270,8 +1270,8 @@ button.icon.lg {
 	position: relative;
 	display: flex;
 	padding-right: 10rpx;
-	height: 140rpx;
-	background-color: var(--white);
+	height: 200rpx;
+	/* background-color: var(--white); */
 	justify-content: flex-end;
 	align-items: center
 }
@@ -1311,7 +1311,7 @@ button.icon.lg {
 }
 
 .cu-list.menu-avatar>.cu-item .action {
-	width: 100rpx;
+	width: 200rpx;
 	text-align: center
 }
 
@@ -1442,7 +1442,7 @@ button.icon.lg {
 }
 
 .cu-list.menu>.cu-item .action .cu-tag:empty {
-	right: 10rpx
+	right: 12rpx
 }
 
 .cu-list.menu {
@@ -2331,7 +2331,7 @@ button.icon.lg {
 
 .cu-card.article>.cu-item .content>image {
 	width: 240rpx;
-	height: 6.4em;
+	height: 5.0em;
 	margin-right: 20rpx;
 	border-radius: 6rpx;
 }

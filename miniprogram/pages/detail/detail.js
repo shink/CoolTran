@@ -47,7 +47,7 @@ Page({
         fileInfo: data.fileInfo,
         fileID: data.fileID,
         typeNum: typeNum,
-        download_button_name: buttonName[typeNum],
+        download_button_name: buttonName[typeNum] + ' (' + data.fileInfo.size + ')',
         operate_name: operate_name_array[typeNum]
       });
 
