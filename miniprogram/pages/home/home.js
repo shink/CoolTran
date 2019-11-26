@@ -62,7 +62,7 @@ Page({
    */
   hideModal(e) {
     this.setData({
-      modalName: null
+      modalName: ""
     })
   },
 
@@ -120,7 +120,7 @@ Page({
                   "Content-Type": "application/x-www-form-urlencoded"
                 },
 
-                success: function(res) {
+                success: res => {
                   let porn = res.data.data.tag_list[2].tag_confidence;
                   console.log(porn);
                   if (porn <= 83) {
@@ -135,7 +135,14 @@ Page({
                   }
 
                 },
-                fail: console.error
+                fail: error => {
+                  console.log(error);
+                  wx.hideLoading();
+                  wx.showToast({
+                    title: error.errMsg,
+                    icon: 'none'
+                  });
+                }
               })
             }
           });
@@ -268,9 +275,8 @@ Page({
               },
               success: res => {
                 wx.hideLoading();
-                wx.showToast({
-                  title: '上传成功'
-                });
+                //  显示modal
+                fileUtil.showModal('上传成功', '快去分享接收码吧！\n' + code, '一键复制', code);
               },
               fail: error => {
                 wx.hideLoading();
@@ -303,6 +309,10 @@ Page({
    * 取件码取文件，跳转到detail
    */
   getFileByCode: function() {
+    wx.showLoading({
+      title: '加载中',
+    });
+
     let code = this.data.input_code;
 
     wx.cloud.callFunction({

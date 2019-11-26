@@ -107,11 +107,18 @@ Page({
 
     if (typeNum === 1) {
       //  是图片类型
+      wx.showLoading({
+        title: '加载中',
+      });
+
       wx.previewImage({
         urls: [fileID],
         success: res => {},
         fail: error => {
           console.log(error);
+        },
+        complete: () => {
+          wx.hideLoading();
         }
       });
     } else if (typeNum === 3) {
@@ -123,13 +130,14 @@ Page({
       wx.cloud.downloadFile({
         fileID: fileID,
         success: res => {
-          console.log(res);
           let filePath = res.tempFilePath;
 
           wx.openDocument({
             filePath: filePath,
             success: function(res) {
               console.log('打开文档成功');
+            },
+            complete: () => {
               wx.hideLoading();
             }
           })
@@ -213,5 +221,5 @@ Page({
       ListTouchDirection: null
     })
   },
- 
+
 })

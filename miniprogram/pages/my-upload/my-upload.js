@@ -123,11 +123,18 @@ Page({
 
     if (typeNum === 1) {
       //  是图片类型
+      wx.showLoading({
+        title: '加载中',
+      });
+
       wx.previewImage({
         urls: [fileID],
         success: res => {},
         fail: error => {
           console.log(error);
+        },
+        complete: () => {
+          wx.hideLoading();
         }
       });
     } else if (typeNum === 3) {
@@ -139,13 +146,14 @@ Page({
       wx.cloud.downloadFile({
         fileID: fileID,
         success: res => {
-          console.log(res);
           let filePath = res.tempFilePath;
 
           wx.openDocument({
             filePath: filePath,
             success: function(res) {
               console.log('打开文档成功');
+            },
+            complete: () => {
               wx.hideLoading();
             }
           })
@@ -154,7 +162,7 @@ Page({
     } else {
       //  是其他类型
       wx.showToast({
-        title: '该文件类型不支持预览',
+        title: '该文件类型暂不支持预览',
         icon: 'none'
       });
     }
@@ -200,7 +208,7 @@ Page({
   onReachBottom: function() {
 
   },
-  
+
   // ListTouch触摸开始
   ListTouchStart(e) {
     this.setData({

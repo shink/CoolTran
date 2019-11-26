@@ -12,7 +12,7 @@
     <view class="cu-card article">
       <view class="cu-item shadow ">
         <view class="content">
-          <image src="/images/file-icon/{{fileInfo.type}}.png" mode="aspectFit" class="png"></image>
+          <image src="../../images/file-icon/{{fileInfo.type}}.png" mode="aspectFit" class="png"></image>
           <view class="des">
             <view class="text-content ">{{fileInfo.fileName}}</view>
           </view>
@@ -20,6 +20,8 @@
       </view>
     </view>
   </view>
-  <button class="cu-btn block bg-gradual-green margin-tb-sm margin-left-lg margin-right-lg lg" bindtap="download">
-    <text class="cuIcon-down"></text>{{download_button_name}}</button>
+  <button wx:if="{{typeNum === 1 || typeNum === 3}}" class="cu-btn block bg-blue margin-tb-sm margin-left-lg margin-right-lg lg" bindtap="preview">
+    <text class="cuIcon-text"></text> 预览</button>
+  <button class="cu-btn block bg-green margin-tb-sm margin-left-lg margin-right-lg lg" bindtap="download">
+    <text class="cuIcon-down"></text> {{download_button_name}}</button>
 </view>

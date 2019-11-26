@@ -312,6 +312,31 @@ function getReqSign(data, app_key) {
   }
 }
 
+/**
+ * 弹框显示上传成功反馈和获取下载链接反馈
+ * title：modal标题
+ * content：modal内容
+ * confirmTest：确认键文本
+ * boardData：复制到剪贴板的内容
+ */
+function showModal(title, content, confirmText, boardData) {
+  wx.showModal({
+    title: title,
+    content: content,
+    showCancel: true,
+    cancelText: '取消',
+    confirmText: confirmText,
+    confirmColor: '#39b54a',
+    success: function(res) {
+      if (res.confirm) {
+        wx.setClipboardData({
+          data: boardData,
+        });
+      }
+    }
+  });
+}
+
 module.exports = {
   converSize: converSize,
   generateCode: generateCode,
@@ -323,5 +348,6 @@ module.exports = {
   deleteDB: deleteDB,
   randomString: randomString,
   time_stamp: time_stamp,
-  getReqSign: getReqSign
+  getReqSign: getReqSign,
+  showModal: showModal
 }

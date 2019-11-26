@@ -75,8 +75,9 @@ Page({
       wx.showModal({
         title: '提醒',
         content: '授权后才可上传或接收文件哦',
-        showCancel: false,
+        showCancel: true,
         confirmText: '返回授权',
+        confirmColor: '#39b54a',
         success: function(res) {
           if (res.confirm) {
             console.log('用户点击了“返回授权”');

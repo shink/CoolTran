@@ -1257,9 +1257,11 @@ button.icon.lg {
 
 .cu-list>.cu-item .move view {
 	display: flex;
+  flex-wrap: wrap;
 	flex: 1;
 	justify-content: center;
-	align-items: center
+	align-content: center;
+  align-items: center
 }
 
 .cu-list.menu-avatar {

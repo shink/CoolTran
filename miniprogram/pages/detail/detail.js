@@ -64,6 +64,53 @@ Page({
   },
 
   /**
+   * 预览
+   */
+  preview: function(e) {
+
+    if (this.data.typeNum === 1) {
+      //  是图片类型
+      wx.showLoading({
+        title: '加载中',
+      });
+
+      wx.previewImage({
+        urls: [this.data.fileID],
+        success: res => {},
+        fail: error => {
+          console.log(error);
+        },
+        complete: () => {
+          wx.hideLoading();
+        }
+      });
+    } else if (this.data.typeNum === 3) {
+      //  是文档类型
+      wx.showLoading({
+        title: '加载中',
+      });
+
+      wx.cloud.downloadFile({
+        fileID: this.data.fileID,
+        success: res => {
+          let filePath = res.tempFilePath;
+
+          wx.openDocument({
+            filePath: filePath,
+            success: function(res) {
+              console.log('打开文档成功');
+            },
+            complete: () => {
+              wx.hideLoading();
+            }
+          })
+        }
+      })
+    }
+
+  },
+
+  /**
    * 点击下载
    */
   download: function() {
@@ -76,7 +123,6 @@ Page({
       if (this.data.typeNum === 0 || this.data.typeNum === 3) {
         //  生成下载链接
         fileUtil.generateUrl(this.data.fileID).then(res => {
-          console.log(res);
           this.insertToDownload(res);
         });
       } else {
@@ -157,13 +203,16 @@ Page({
         },
         success: res => {
           wx.hideLoading();
-          wx.showToast({
-            title: this.data.operate_name + '成功'
-          });
 
           //  再次判断文件类型是否是其他，若是其他则弹出显示框，显示临时URL
-          if (this.data.typeNum === 0) {
-            this.showTempURL(result);
+          if (this.data.typeNum === 0 || this.data.typeNum === 3) {
+            console.log(result);
+            //  显示modal
+            fileUtil.showModal('获取成功', '快去下载文件吧！\n（注意：链接有效期只有两个小时哦）', '一键复制', result)
+          } else {
+            wx.showToast({
+              title: this.data.operate_name + '成功'
+            });
           }
         },
         fail: error => {

@@ -30,7 +30,7 @@
     </view>
     <view class="cu-item arrow">
       <navigator class="content" url="/pages/about/about" hover-class="none">
-        <image src="/images/my/coolTran.png" class="png" mode="aspectFit"></image>
+        <image src="/images/my/coolTran.png" class="png margin-bottom-xs" mode="aspectFit"></image>
         <text class="text-grey">关于小程序</text>
       </navigator>
     </view>

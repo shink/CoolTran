@@ -2,7 +2,7 @@
   <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}} solid-bottom {{index%2==0?'bg-cyan':''}} light" wx:for="{{uploadList}}" wx:key="{{item.fileID}}" bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd"
     data-target="move-box-{{index}}">
     <view class="cu-avatar lg">
-      <image src="/images/file-icon/{{item.fileInfo.type}}.png" class="png" mode="aspectFit"></image>
+      <image src="../../images/file-icon/{{item.fileInfo.type}}.png" class="png" mode="aspectFit"></image>
 
     </view>
     <view class="content">
@@ -15,17 +15,20 @@
       <view class="text-grey text-sm">{{item.fileInfo.time}}</view>
     </view>
     <view class="move">
-      <view class="bg-gradual-green text-xxl" data-target="{{item}}" open-type="share">
-        <button class="cu-btn bg-gradual-green" data-target="{{item}}" open-type="share">
+      <view class="bg-gradual-green">
+          <text class="cuIcon-share"></text>
+        <button class="cu-btn bg-gradual-green block" data-target="{{item}}" open-type="share">
           分享
         </button>
       </view>
       <view class="bg-gradual-blue">
+        <text class="cuIcon-text"></text>
         <button class="cu-btn bg-gradual-blue" data-target="{{item.fileID}}" data-type="{{item.fileInfo.type}}" bindtap="preview">
           预览
         </button>
       </view>
       <view class="bg-gradual-red">
+        <text class="cuIcon-delete"></text>
         <button class="cu-btn bg-gradual-red" data-target="{{item.fileID}}" data-index="{{index}}" bindtap="deleteUpload">
           删除
         </button>
