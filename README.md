@@ -13,15 +13,15 @@
 - 首先点击右上角 🌟Star ʕ •ᴥ•ʔ
 - 获取 Demo 代码
 
-  - git bash 中执行 git clone https://github.com/profoundly/CoolTran.git
+  - git bash 中执行 `git clone https://github.com/profoundly/CoolTran.git`
 
   - 或 [点击此处](https://github.com/profoundly/CoolTran/releases) 下载最新版本的代码
 
 - 解压后在微信开发者工具中打开 CoolTran 文件夹即可
 
-### 如果需要登录测试，还需要配置 Bmob
+### 如果需要登录测试，还需要配置 Bmob 和 AppId
 
-在 [Bmob 官网](https://www.bmob.cn/) 注册后创建一个微信小程序应用，在应用的设置界面的应用密钥这一栏可以看到 Application ID 和 REST API Key，将 他们作为 app.js 第五行代码 _Bmob.initialize("yours Application ID", "yours REST API Key");_ 函数的第一、二个参数传入即可。
+在 [Bmob 官网](https://www.bmob.cn/) 注册后创建一个微信小程序应用，在应用的设置界面的应用密钥这一栏可以看到 Application ID 和 REST API Key，将 他们作为 app.js 第五行代码 _Bmob.initialize("yours Application ID", "yours REST API Key");_ 函数的第一、二个参数传入即可。另外还需将 project.config.json 文件中的 appid 属性修改为你的 AppId。
 
 > 另外还需要去微信公众平台添加 Bmob 域名到服务器域名中，具体教程可自行 Google 或参考 [Bmob 微信小程序文档](http://doc.bmob.cn/data/wechat_app_new/index.html)
 
