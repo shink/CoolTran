@@ -6,6 +6,8 @@
 
 代码已移除 AppId 等敏感信息，可自行添加自己的 AppId 和 AppSecret 以配置后台环境，实现登录测试，详细添加方法见下文「使用方法」，若本地运行可通过修改 app.json 文件中 page 字段的顺序来查看不同页面。
 
+> 因涉及用户隐私问题，cloudfunctions 暂未开源
+
 ## 使用方法
 
 - 首先点击右上角 🌟Star ʕ •ᴥ•ʔ
@@ -19,7 +21,9 @@
 
 ### 如果需要登录测试，还需要配置 Bmob
 
-在 [Bmob 官网](https://www.bmob.cn/) 注册后创建一个微信小程序应用，在应用的设置界面的应用密钥这一栏可以看到 Application ID 和 REST API Key，将 他们作为 app.js 第五行 _Bmob.initialize("yours Application ID", "yours REST API Key");_ 函数的第一、二个参数传入即可。
+在 [Bmob 官网](https://www.bmob.cn/) 注册后创建一个微信小程序应用，在应用的设置界面的应用密钥这一栏可以看到 Application ID 和 REST API Key，将 他们作为 app.js 第五行代码 _Bmob.initialize("yours Application ID", "yours REST API Key");_ 函数的第一、二个参数传入即可。
+
+> 另外还需要去微信公众平台添加 Bmob 域名到服务器域名中，具体教程可自行 Google 或参考 [Bmob 微信小程序文档](http://doc.bmob.cn/data/wechat_app_new/index.html)
 
 ## 作者
 
