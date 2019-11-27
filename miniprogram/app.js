@@ -1,8 +1,8 @@
-//app.js
+﻿//app.js
 const Bmob = require('utils/bmob.js');
 const common = require("utils/common.js");
 const loginUtil = require("utils/login.js");
-Bmob.initialize("d3c65fe219129077c74c1a2dbccf89ab", "ccd8823cb404c9ca9c2969ded2a2712a");
+Bmob.initialize("yours Application ID", "yours REST API Key");
 
 App({
 
