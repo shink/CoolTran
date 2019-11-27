@@ -1,0 +1,14 @@
+<view class='margin-xl bg-white padding-xl radius shadow-lg'>
+  <view class='text-center margin-bottom text-lg  text-grey'>关于酷传CoolTran</view>
+  <view class='text-content'>
+    <view>Hi！~欢迎使用酷传CoolTran！</view>
+    <view class='margin-top-sm'>该项目是由我们三位在校研究生创作的，旨在解决因微信封闭性陌生人互传文件的问题。</view>
+    <view class='margin-top-sm'>项目是开源的，不收取任何费用，如果这个项目有什么bug，或者有哪些需要改进的地方，欢迎pull request，项目地址是：https://github.com/profoundly/CoolTran</view>
+    <view class='margin-top-sm'>作者：
+      <view>深刻：https://github.com/profoundly</view>
+      <view>xdmqp：https://github.com/xdmqp</view>
+      <view>xylxxx：https://github.com/xylxxx</view>
+    </view>
+    <view class='margin-top-sm'>更多功能敬请期待！</view>
+  </view>
+</view>

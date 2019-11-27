@@ -1,0 +1,61 @@
+<!--pages/home/home.wxml-->
+<view>
+  <image src='/images/banner.png' mode='aspectFit' class='png radius' style='width:100%;height:400rpx;'></image>
+  <view class="cu-bar justify-between bg-white margin-sm shadow">
+    <view class="action sub-title">
+      <text class="text-xl text-bold text-left text-green">上传文件</text>
+      <text class="bg-green" style="width:2rem"></text>
+      <!-- last-child选择器-->
+    </view>
+  </view>
+
+  <view class='nav-list'>
+    <view open-type="navigate" hover-class='none' class="nav-li bg-cyan" bindtap="uploadImage">
+      <view class="nav-title">图片</view>
+      <view class="nav-name">Picture</view>
+      <text class='cuIcon-pic'></text>
+    </view>
+    <view open-type="navigate" hover-class='none' class="nav-li bg-blue" bindtap="uploadVideo">
+      <view class="nav-title">视频</view>
+      <view class="nav-name">Video</view>
+      <text class='cuIcon-video'></text>
+    </view>
+    <view open-type="navigate" hover-class='none' class="nav-li bg-red" bindtap="uploadMessageFile">
+      <view class="nav-title">聊天文件</view>
+      <view class="nav-name">MessageFile</view>
+      <text class='cuIcon-text'></text>
+    </view>
+  </view>
+  <view class="cu-bar justify-between bg-white margin-sm shadow">
+    <view class="action sub-title">
+      <text class="text-xl text-bold text-left text-green">接收文件</text>
+      <text class="bg-green" style="width:2rem"></text>
+    </view>
+  </view>
+  <view class='nav-list'>
+    <view open-type="navigate" hover-class='none' class="nav-li bg-green" bindtap="showModal" data-target="inputModal">
+      <view class="nav-title">接收码</view>
+      <view class="nav-name">Code</view>
+      <text class='cuIcon-edit'></text>
+    </view>
+  </view>
+</view>
+<view class="cu-modal {{modalName=='inputModal'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">请输入文件提取码</view>
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xl">
+      <input type="text" class="solid-bottom" maxlength="4" placeholder="提取码" bindinput="inputCode"></input>
+    </view>
+    <view class="cu-bar bg-white justify-end">
+      <view class="action">
+        <button class="cu-btn line-green text-green" bindtap="hideModal">取消</button>
+        <button class="cu-btn bg-green margin-left" bindtap="getFileByCode" form-type="submit">确定</button>
+      </view>
+    </view>
+  </view>
+</view>

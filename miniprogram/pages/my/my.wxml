@@ -1,0 +1,41 @@
+<scroll-view scroll-y class="scrollPage">
+  <view class="UCenter-bg">
+
+    <block wx:if="{{isLogin}}">
+      <view class="cu-avatar xl round" style="background-image:url({{avatarUrl}});"></view>
+      <view class="text-xl">
+        <open-data type="userNickName" class="profile-name"></open-data>
+      </view>
+    </block>
+    <block wx:else>
+      <button class="cu-btn block bg-white lg" open-type="getUserInfo" bindgetuserinfo="doGetUserInfo" lang="zh_CN">
+        <text class="cuIcon-weixin"></text> 请先登录</button>
+    </block>
+    <image src="https://raw.githubusercontent.com/weilanwl/ColorUI/master/demo/images/wave.gif" mode="scaleToFill" class="gif-wave"></image>
+  </view>
+
+  <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
+    <view class="cu-item arrow" wx:if="{{isLogin}}">
+      <navigator class="content" url="/pages/my-upload/my-upload" hover-class="none">
+        <text class="cuIcon-upload text-green"></text>
+        <text class="text-grey">我的上传文件</text>
+      </navigator>
+    </view>
+
+    <view class="cu-item arrow" wx:if="{{isLogin}}">
+      <navigator class="content" url="/pages/my-download/my-download" hover-class="none">
+        <text class="cuIcon-down text-green"></text>
+        <text class="text-grey">我的下载文件</text>
+      </navigator>
+    </view>
+    <view class="cu-item arrow">
+      <navigator class="content" url="/pages/about/about" hover-class="none">
+        <image src="/images/my/coolTran.png" class="png margin-bottom-xs" mode="aspectFit"></image>
+        <text class="text-grey">关于小程序</text>
+      </navigator>
+    </view>
+  </view>
+
+  <view class="cu-tabbar-height"></view>
+
+</scroll-view>
