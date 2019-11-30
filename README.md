@@ -36,13 +36,13 @@ xylxxx：<https://github.com/xylxxx>
 ## 效果展示
 
 <p align="center">
-  <img width="200" src="https://raw.githubusercontent.com/profoundly/data/master/cooltran/result/home.png" hspace="30px" />
-  <img width="200" src="https://raw.githubusercontent.com/profoundly/data/master/cooltran/result/code.png" hspace="30px" />
-  <img width="200" src="https://raw.githubusercontent.com/profoundly/data/master/cooltran/result/detail.png" hspace="30px" />
+  <img width="200" src="https://raw.githubusercontent.com/profoundly/data/master/cooltran/result/home.jpg" hspace="30px" />
+  <img width="200" src="https://raw.githubusercontent.com/profoundly/data/master/cooltran/result/code.jpg" hspace="30px" />
+  <img width="200" src="https://raw.githubusercontent.com/profoundly/data/master/cooltran/result/detail.jpg" hspace="30px" />
 </p>
 
 <p align="center">
-  <img width="200" src="https://raw.githubusercontent.com/profoundly/data/master/cooltran/result/my.png" hspace="30px" />
-  <img width="200" src="https://raw.githubusercontent.com/profoundly/data/master/cooltran/result/my-upload.png" hspace="30px" />
-  <img width="200" src="https://raw.githubusercontent.com/profoundly/data/master/cooltran/result/my-download.png" hspace="30px" />
+  <img width="200" src="https://raw.githubusercontent.com/profoundly/data/master/cooltran/result/my.jpg" hspace="30px" />
+  <img width="200" src="https://raw.githubusercontent.com/profoundly/data/master/cooltran/result/my-upload.jpg" hspace="30px" />
+  <img width="200" src="https://raw.githubusercontent.com/profoundly/data/master/cooltran/result/my-download.jpg" hspace="30px" />
 </p>
