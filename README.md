@@ -53,3 +53,7 @@ xylxxx：<https://github.com/xylxxx>
   <img width="200" src="https://raw.githubusercontent.com/profoundly/data/master/cooltran/result/my-upload.jpg" hspace="30px" />
   <img width="200" src="https://raw.githubusercontent.com/profoundly/data/master/cooltran/result/my-download.jpg" hspace="30px" />
 </p>
+
+## License
+
+[MIT](LICENSE)
