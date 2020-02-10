@@ -1,5 +1,12 @@
 # CoolTran
 
+<p align="center">
+    <img src="https://img.shields.io/github/license/sculpta/CoolTran.svg"/>
+    <img src="https://img.shields.io/github/repo-size/sculpta/CoolTran.svg"/>
+    <img src="https://img.shields.io/github/last-commit/sculpta/CoolTran.svg"/>
+    <img src="https://img.shields.io/badge/language-javascript-yellow.svg"/>
+</p>
+
 参加比赛的作品，开发周期三周，使用了 ColorUI 库，后台小程序登录是通过 Bmob 服务器中转请求获取 session_key，存储功能采用腾讯云提供的 Node.js SDK 接入对象存储 API。
 
 创作初衷是想实现同 QQ 一样的面对面快传，来解决陌生微信用户之间互传文件的问题。目前版本技术成熟，可作为微信用户之间互传文件的平台，实现了一人上传文件，多人可获取的功能。
